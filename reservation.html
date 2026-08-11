@@ -617,7 +617,7 @@
         <form
             class="form-card"
             id="reservationForm"
-            action="https://formsubmit.co/amauto.2614@gmail.com"
+            action="https://script.google.com/macros/s/AKfycbxmiVBthM4a3PejCF0e1N-AeARMYPa6pe26YU0tTH2I73uD-dQ2qFiYclN5Fp1a3IkR/exec"
             method="POST"
         >
 
@@ -1045,10 +1045,6 @@ ZN8 / 不明であれば「不明」と入力"
                                 選択してください
                             </option>
 
-                            <option value="09:00">
-                                09:00
-                            </option>
-
                             <option value="10:00">
                                 10:00
                             </option>
@@ -1071,18 +1067,6 @@ ZN8 / 不明であれば「不明」と入力"
 
                             <option value="15:00">
                                 15:00
-                            </option>
-
-                            <option value="16:00">
-                                16:00
-                            </option>
-
-                            <option value="17:00">
-                                17:00
-                            </option>
-
-                            <option value="18:00">
-                                18:00
                             </option>
 
                         </select>
@@ -1296,7 +1280,14 @@ ZN8 / 不明であれば「不明」と入力"
 
     dateInput.min = `${year}-${month}-${day}`;
 
-</script>
+    const maxDate = new Date();
+maxDate.setFullYear(maxDate.getFullYear() + 1);
+
+const maxYear = maxDate.getFullYear();
+const maxMonth = String(maxDate.getMonth() + 1).padStart(2, "0");
+const maxDay = String(maxDate.getDate()).padStart(2, "0");
+
+dateInput.max = `${maxYear}-${maxMonth}-${maxDay}`;
 
 </script>
 
