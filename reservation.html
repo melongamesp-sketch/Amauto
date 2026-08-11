@@ -1296,7 +1296,16 @@ ZN8 / 不明であれば「不明」と入力"
 
     dateInput.min = `${year}-${month}-${day}`;
 
-</script>
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
+
+    const maxYear = maxDate.getFullYear();
+    const maxMonth = String(maxDate.getMonth() + 1).padStart(2, "0");
+    const maxDay = String(maxDate.getDate()).padStart(2, "0");
+
+    dateInput.max = `${maxYear}-${maxMonth}-${maxDay}`;
+
+    </script>
 
 </script>
 
