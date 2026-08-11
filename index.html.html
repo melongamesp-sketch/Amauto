@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Amauto | 洗車予約</title>
+
+    <meta
+        name="description"
+        content="Amautoの洗車予約ページ。ご希望の洗車メニュー・日時・お車の情報を入力してご予約いただけます。"
+    >
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Helvetica Neue",
+                "Hiragino Kaku Gothic ProN",
+                "Yu Gothic",
+                YuGothic,
+                Arial,
+                sans-serif;
+
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 76px;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #d8d8d8;
+            font-weight: 400;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+
+            color: #ddd;
+            font-size: 13px;
+
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .reservation-hero {
+            padding: 150px 8% 70px;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.75),
+                    rgba(0,0,0,0.95)
+                ),
+                url("https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=2000&q=85")
+                center/cover no-repeat;
+
+            border-bottom: 1px solid #1d1d1d;
+        }
+
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .reservation-hero h1 {
+            font-size: clamp(42px, 6vw, 70px);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .reservation-hero p {
+            color: #aaa;
+            max-width: 650px;
+        }
+
+
+        /* =========================
+           FORM AREA
+        ========================= */
+
+        .reservation-section {
+            padding: 90px 8% 120px;
+            background: #0a0a0a;
+        }
+
+        .reservation-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 14px;
+            padding: 45px;
+        }
+
+        .form-section {
+            padding-bottom: 45px;
+            margin-bottom: 45px;
+
+            border-bottom: 1px solid #242424;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .form-section-title {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .form-section-description {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           FORM GROUP
+        ========================= */
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: #ddd;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .required {
+            display: inline-block;
+
+            margin-left: 7px;
+
+            color: #999;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 15px 16px;
+
+            background: #0a0a0a;
+            color: #fff;
+
+            border: 1px solid #303030;
+            border-radius: 8px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #555;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #888;
+            background: #0d0d0d;
+        }
+
+        select {
+            appearance: none;
+
+            background-image:
+                linear-gradient(45deg, transparent 50%, #777 50%),
+                linear-gradient(135deg, #777 50%, transparent 50%);
+
+            background-position:
+                calc(100% - 20px) 50%,
+                calc(100% - 14px) 50%;
+
+            background-size:
+                6px 6px,
+                6px 6px;
+
+            background-repeat: no-repeat;
+
+            padding-right: 45px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .menu-option {
+            position: relative;
+        }
+
+        .menu-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-option label {
+            display: block;
+
+            height: 100%;
+
+            padding: 25px 20px;
+
+            background: #0a0a0a;
+
+            border: 1px solid #303030;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .menu-option label:hover {
+            border-color: #666;
+        }
+
+        .menu-option input:checked + label {
+            border-color: #fff;
+            background: #171717;
+        }
+
+        .menu-name {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .menu-price {
+            display: block;
+
+            margin-bottom: 12px;
+
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .menu-description {
+            display: block;
+
+            color: #777;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           CAUTION
+        ========================= */
+
+        .notice {
+            margin-top: 25px;
+            padding: 20px;
+
+            background: #0a0a0a;
+
+            border: 1px solid #242424;
+            border-radius: 8px;
+
+            color: #888;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           CONFIRM
+        ========================= */
+
+        .confirm-box {
+            margin-top: 30px;
+
+            padding: 25px;
+
+            background: #0a0a0a;
+
+            border: 1px solid #242424;
+            border-radius: 10px;
+        }
+
+        .confirm-box h3 {
+            margin-bottom: 15px;
+
+            font-size: 16px;
+        }
+
+        .confirm-box p {
+            color: #888;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .submit-area {
+            padding-top: 40px;
+        }
+
+        .submit-button {
+            width: 100%;
+
+            padding: 18px 25px;
+
+            border: none;
+            border-radius: 50px;
+
+            background: #fff;
+            color: #000;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            background: #ddd;
+        }
+
+        .submit-note {
+            margin-top: 15px;
+
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 50px 8% 30px;
+
+            background: #050505;
+
+            border-top: 1px solid #1d1d1d;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .copyright {
+            color: #555;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .form-card {
+                padding: 30px 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .menu-options {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+                height: 65px;
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .back-button {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            .reservation-hero {
+                padding: 120px 6% 60px;
+            }
+
+            .reservation-hero h1 {
+                font-size: 44px;
+            }
+
+            .reservation-section {
+                padding: 60px 6% 90px;
+            }
+
+            .form-card {
+                padding: 25px 18px;
+            }
+
+            .form-section {
+                padding-bottom: 35px;
+                margin-bottom: 35px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <a href="index.html" class="logo">
+        Ama<span>uto</span>
+    </a>
+
+    <a href="index.html" class="back-button">
+        ← トップへ戻る
+    </a>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="reservation-hero">
+
+    <div class="section-label">
+        RESERVATION
+    </div>
+
+    <h1>
+        洗車を予約する。
+    </h1>
+
+    <p>
+        必要事項をご入力ください。
+        ご希望の内容を確認したうえで、予約を受け付けます。
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     RESERVATION FORM
+========================= -->
+
+<section class="reservation-section">
+
+    <div class="reservation-container">
+
+        <form
+            class="form-card"
+            id="reservationForm"
+            action="https://formsubmit.co/amauto.2614@gmail.com"
+            method="POST"
+        >
+
+        <input type="hidden" name="_subject" value="【Amauto】新しい洗車予約">
+        <input type="hidden" name="_template" value="table">
+
+
+            <!-- =========================
+                 CUSTOMER
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    お客様情報
+                </h2>
+
+                <p class="form-section-description">
+                    ご連絡のために必要な情報をご入力ください。
+                </p>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            お名前
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="例：山田 太郎"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            電話番号
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="例：09012345678"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 CAR
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    お車の情報
+                </h2>
+
+                <p class="form-section-description">
+                    洗車するお車についてご入力ください。
+                    <br>
+                    ご依頼頂く車種によっては、ご対応できかねる場合がございます。
+                </p>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="car">
+                            車種
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="car"
+                            name="car"
+                            placeholder="例：GR86"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="model">
+                            型式
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="model"
+                            name="model"
+                            placeholder="例：3BA-
+ZN8 / 不明であれば「不明」と入力"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="color">
+                            ボディカラー
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="color"
+                            name="color"
+                            placeholder="例：ブラック"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="size">
+                            車両サイズ
+                            <span class="required">必須</span>
+                        </label>
+
+                        <select
+                            id="size"
+                            name="size"
+                            required
+                        >
+
+                            <option value="">
+                                選択してください
+                            </option>
+
+                            <option value="軽自動車">
+                                軽自動車
+                            </option>
+
+                            <option value="普通車">
+                                普通車
+                            </option>
+
+                            <option value="SUV・ミニバン">
+                                SUV・ミニバン
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 MENU
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    洗車メニュー
+                </h2>
+
+                <p class="form-section-description">
+                    ご希望のメニューを1つお選びください。
+                </p>
+
+
+                <div class="menu-options">
+
+
+                    <div class="menu-option">
+
+                        <input
+                            type="radio"
+                            id="light"
+                            name="menu"
+                            value="LIGHT WASH"
+                            required
+                        >
+
+                        <label for="light">
+
+                            <span class="menu-name">
+                                LIGHT WASH
+                            </span>
+
+                            <span class="menu-price">
+                                ¥2,000〜
+                            </span>
+
+                            <span class="menu-description">
+                                ボディ洗車・簡易拭き上げ
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="menu-option">
+
+                        <input
+                            type="radio"
+                            id="standard"
+                            name="menu"
+                            value="STANDARD WASH"
+                        >
+
+                        <label for="standard">
+
+                            <span class="menu-name">
+                                STANDARD WASH
+                            </span>
+
+                            <span class="menu-price">
+                                ¥3,500〜
+                            </span>
+
+                            <span class="menu-description">
+                                ボディ洗車・拭き上げ・ホイール洗浄
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="menu-option">
+
+                        <input
+                            type="radio"
+                            id="premium"
+                            name="menu"
+                            value="PREMIUM WASH"
+                        >
+
+                        <label for="premium">
+
+                            <span class="menu-name">
+                                PREMIUM WASH
+                            </span>
+
+                            <span class="menu-price">
+                                ¥5,000〜
+                            </span>
+
+                            <span class="menu-description">
+                                ボディ洗車（拭き上げ含）・ホイール洗浄（ダスト含）・給油口・サイドシル等の洗浄・
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="notice">
+                    ※現在表示されている料金は仮設定です。
+                    実際の料金・追加料金については、正式な料金設定後に変更してください。
+                </div>
+
+                <div class="form-section">
+
+    <h2 class="form-section-title">
+        カスタマイズ
+    </h2>
+
+    <p class="form-section-description">
+        ご希望の追加オプションをお選びください。
+        （複数選択可能）
+    </p>
+
+    <div class="form-group">
+
+        <label>
+            <input
+                type="checkbox"
+                name="custom"
+                value="簡易撥水コーティング（ガラスのみ） +2000円"
+            >
+            簡易撥水コーティング（ガラスのみ） + ¥2,000
+        </label>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            <input
+                type="checkbox"
+                name="custom"
+                value="簡易油膜除去（ガラスのみ） +3500円"
+            >
+            簡易油膜除去（ガラスのみ） + ¥3,500
+        </label>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            <input
+                type="checkbox"
+                name="custom"
+                value="【お得パック】油膜除去＋撥水セット +4500円"
+            >
+            油膜除去＋撥水セット + ¥4,500
+        </label>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            <input
+                type="checkbox"
+                name="custom"
+                value="ホイール鉄粉除去 +1500円"
+            >
+            ホイール鉄粉除去 + ¥1,500
+        </label>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            <input
+                type="checkbox"
+                name="custom"
+                value="給油口洗浄 +300円"
+            >
+            給油口洗浄 + ¥300
+        </label>
+
+    </div>
+
+</div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 DATE / TIME
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    ご希望日時
+                </h2>
+
+                <p class="form-section-description">
+                    ご希望の日時をお選びください。
+                </p>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="date">
+                            希望日
+                            <span class="required">必須</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="time">
+                            希望時間
+                            <span class="required">必須</span>
+                        </label>
+
+                        <select
+                            id="time"
+                            name="time"
+                            required
+                        >
+
+                            <option value="">
+                                選択してください
+                            </option>
+
+                            <option value="09:00">
+                                09:00
+                            </option>
+
+                            <option value="10:00">
+                                10:00
+                            </option>
+
+                            <option value="11:00">
+                                11:00
+                            </option>
+
+                            <option value="12:00">
+                                12:00
+                            </option>
+
+                            <option value="13:00">
+                                13:00
+                            </option>
+
+                            <option value="14:00">
+                                14:00
+                            </option>
+
+                            <option value="15:00">
+                                15:00
+                            </option>
+
+                            <option value="16:00">
+                                16:00
+                            </option>
+
+                            <option value="17:00">
+                                17:00
+                            </option>
+
+                            <option value="18:00">
+                                18:00
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="notice">
+                    ※ご希望日時は予約確定を保証するものではありません。
+                    予約状況を確認したうえで正式に受付いたします。
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 LOCATION
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    お車のお預かりについて
+                </h2>
+
+                <p class="form-section-description">
+                    ご希望のお預かり方法をお選びください。
+                </p>
+
+
+                <div class="form-group">
+
+                    <label for="dropoff">
+                        お預かり方法
+                        <span class="required">必須</span>
+                    </label>
+
+                    <select
+                        id="dropoff"
+                        name="dropoff"
+                        required
+                    >
+
+                        <option value="">
+                            選択してください
+                        </option>
+
+                        <option value="指定場所で預ける">
+                            指定場所で預ける
+                        </option>
+
+                        <option value="その他・要相談">
+                            その他・要相談
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="address">
+                        お預かり場所・住所
+                        <span class="required">必須</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="例：仙台市青葉区○○"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 NOTE
+            ========================= -->
+
+            <div class="form-section">
+
+                <h2 class="form-section-title">
+                    その他
+                </h2>
+
+                <p class="form-section-description">
+                    ご希望や気になる点がございましたらご入力ください。
+                </p>
+
+
+                <div class="form-group">
+
+                    <label for="note">
+                        備考
+                    </label>
+
+                    <textarea
+                        id="note"
+                        name="note"
+                        placeholder="例：ホイールも重点的に洗ってほしい、気になる汚れがある等"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 CONFIRM
+            ========================= -->
+
+            <div class="confirm-box">
+
+                <h3>
+                    ご予約について
+                </h3>
+
+                <p>
+                    送信いただいた内容を確認後、
+                    予約状況を確認して正式な受付を行います。
+                    ご希望日時によってはご希望に添えない場合がございます。
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================
+                 SUBMIT
+            ========================= -->
+
+            <div class="submit-area">
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    予約内容を送信する
+                </button>
+
+                <p class="submit-note">
+                    送信後、予約確認画面へ進みます。
+                </p>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-logo">
+            Amauto
+        </div>
+
+        <div class="copyright">
+            © 2026 Amauto. All Rights Reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    /*
+     * 希望日の最低日付を今日に設定
+     */
+
+    const dateInput = document.getElementById("date");
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+
+    const month = String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        today.getDate()
+    ).padStart(2, "0");
+
+    dateInput.min = `${year}-${month}-${day}`;
+
+</script>
+
+</script>
+
+
+</body>
+</html>
